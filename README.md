@@ -1,7 +1,7 @@
 # SQS Piper
 
-A utility to receieve an SQS message from one queue and then send it on another
-queue
+A utility to receive an AWS SQS message from one queue and then send it on
+another queue
 
 `go run main.go <source queue name> <sink source name>`
 

@@ -15,22 +15,25 @@ func main() {
 	}
 
 	sess, err := session.NewSessionWithOptions(session.Options{
-		Config: aws.Config{Region: aws.String("us-east-1")},
+		Config:  aws.Config{Region: aws.String("us-east-1")},
+		Profile: "development",
 	})
 
 	svc := sqs.New(sess)
 	sourceUrlRes, err := svc.GetQueueUrl(&sqs.GetQueueUrlInput{
-		QueueName: aws.String(os.Args[1]),
+		QueueName:              aws.String(os.Args[1]),
+		QueueOwnerAWSAccountId: aws.String("121749107756"),
 	})
 	if err != nil {
-		log.Fatalln("GetQueueURL failed:", err)
+		log.Fatalln("Source GetQueueURL failed:", err)
 	}
 
 	sinkUrlRes, err := svc.GetQueueUrl(&sqs.GetQueueUrlInput{
-		QueueName: aws.String(os.Args[2]),
+		QueueName:              aws.String(os.Args[2]),
+		QueueOwnerAWSAccountId: aws.String("121749107756"),
 	})
 	if err != nil {
-		log.Fatalln("GetQueueURL failed:", err)
+		log.Fatalln("Sink GetQueueURL failed:", err)
 	}
 
 	receiveResponse, err := svc.ReceiveMessage(&sqs.ReceiveMessageInput{
